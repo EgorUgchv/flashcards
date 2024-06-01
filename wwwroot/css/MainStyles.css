@@ -1,0 +1,29 @@
+
+:root {
+    --main-color: #48abd5 !important;
+
+}
+
+.form-control:focus {
+    border-color: rgb(4, 83, 255) ;
+    border: 0;
+}
+
+h1,h2,h3,h4,h5{
+    color: white;
+}
+body{
+    background-color: #141A44 !important;
+    font-size: 16px;
+}
+
+.card{
+    background-color: var(--main-color);
+}
+
+.mt-6{
+    margin-top: 10rem;
+}
+
+
+
