@@ -6,6 +6,7 @@ namespace WordStudy.Controllers;
 
 public class CardsController : Controller
 {
+    
     public IActionResult Learning()
     {
         var cards = CardsRepository.GetCards();

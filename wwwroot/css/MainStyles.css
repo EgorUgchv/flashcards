@@ -5,23 +5,25 @@
 }
 
 .form-control:focus {
-    border-color: rgb(4, 83, 255) ;
+    border-color: rgb(4, 83, 255);
     border: 0;
 }
 
-h1,h2,h3,h4,h5{
+h1, h2, h3, h4, h5 {
     color: white;
 }
-body{
+
+body {
     background-color: #141A44 !important;
     font-size: 16px;
 }
 
-.card{
+.card, .new__card {
     background-color: var(--main-color);
+    border: 0;
 }
 
-.mt-6{
+.mt-6 {
     margin-top: 10rem;
 }
 
