@@ -18,13 +18,18 @@ body {
     font-size: 16px;
 }
 
-.card, .new__card {
+.card, .new-card {
     background-color: var(--main-color);
     border: 0;
 }
 
 .mt-6 {
     margin-top: 10rem;
+}
+
+.bin{
+    height: 40px;
+    width: 35px;
 }
 
 
