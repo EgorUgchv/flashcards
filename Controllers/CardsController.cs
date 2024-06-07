@@ -6,13 +6,13 @@ namespace WordStudy.Controllers;
 
 public class CardsController : Controller
 {
-    
+    [HttpGet]
     public IActionResult Learning()
     {
         var cards = CardsRepository.GetCards();
         return View(cards);
     }
-    
+
     public IActionResult Create()
     {
         return View();
@@ -20,17 +20,18 @@ public class CardsController : Controller
 
 
     [HttpPost]
-    public IActionResult Create(Card card)
+    public IActionResult Create(CardList model)
     {
         if (ModelState.IsValid)
         {
-            CardsRepository.AddCard(card);
+            foreach (var card in model.Cards)
+            {
+                CardsRepository.AddCard(card);
+            }
+
             return RedirectToAction(nameof(Learning));
         }
 
-        return View(card);
+        return View(model);
     }
-    
-
-    
 }

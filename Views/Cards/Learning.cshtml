@@ -1,4 +1,4 @@
-@model List<WordStudy.Models.Card>
+@model CardList
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +18,7 @@
 
 <br/>
 }
-@if (Model != null && Model.Count > 0)
+@if (Model.Cards != null && Model.Cards.Count > 0)
 {
 
     <table class="table table-striped">
@@ -31,7 +31,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var card in Model)
+        @foreach (var card in Model.Cards)
         {
             <tr>
                 <td>@card.Term</td>

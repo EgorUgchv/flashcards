@@ -19,14 +19,6 @@ function restoreCardsHTML() {
     }
 }
 
-function addBin() {
-    const binUrl = "/img/trash.svg";
-    var img = new Image();
-    img.classList.add("bin");
-    img.classList.add("img-fluid");
-    img.src = binUrl;
-}
-
 function addCard() {
 
     let termInput = document.querySelector('.term input');
@@ -45,11 +37,11 @@ function addCard() {
                     <div class="card-body row">
                         <div class="term col">
                             <h3>Термин</h3>
-                            <input class="form-control w-100" asp-for="Term" placeholder="Введите термин">
+                            <input class="form-control w-100" asp-for="Cards[${currentCardNumber-1}].Term" placeholder="Введите термин">
                         </div>
                         <div class="definition col">
                             <h3>Определение</h3>
-                            <input class="form-control w-100" asp-for="Definition" placeholder="Введите определение">
+                            <input class="form-control w-100" asp-for="Cards[${currentCardNumber-1}].Definition" placeholder="Введите определение">
                         </div>
                     </div>
             </div> `;
@@ -58,7 +50,11 @@ function addCard() {
     newCard.classList.add('mt-3');
     newCard.innerHTML = newCardHTML;
 
-    addBin();
+    const binUrl = "/img/trash.svg";
+    var img = new Image();
+    img.classList.add("bin");
+    img.classList.add("img-fluid");
+    img.src = binUrl;
 
     let addImg = newCard.querySelector('.header');
     addImg.appendChild(img);
@@ -66,27 +62,38 @@ function addCard() {
     let addNewCard = document.querySelector('.cards');
     let referenceNode = document.getElementById('create-cards');
     addNewCard.insertBefore(newCard, referenceNode);
-
+    saveCardsHTML();
     saveCardDataToServer(cardData);
     updateCounter();
-    saveCardsHTML();
+    
 }
 
-function saveCardDataToServer(cardData) {
-
-}
+/*function saveCardDataToServer(cardData) {
+    fetch('/Cards/Create/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cardData)
+    })
+        .then(Response => Response.json())
+        .then((data => {
+            console.log("Данные успешно сохранены: ", data);
+        }))
+        .then((error) => {
+            console.error('Ошибка при отправке данных на сервере: ', error)
+        })
+}*/
 
 document.addEventListener('DOMContentLoaded', function () {
-    let form = document.querySelector('.new-card');
+    let form = document.querySelector('.card');
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-
         addCard();
     });
 });
 
 
 window.onload = updateCounter;
-
 localStorage.clear();
 
