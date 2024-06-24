@@ -1,33 +1,33 @@
 var currentCardNumber = 1;
 
-function updateCounter() {
+/*function updateCounter() {
     var count = document.getElementsByClassName('card').length;
     document.getElementById('card-counter').textContent = 'Количество карт: ' + count;
-}
+}*/
 
-function saveCardsHTML() {
+/*function saveCardsHTML() {
     let cardsContainer = document.querySelector('.cards');
     let cardsHTML = cardsContainer.innerHTML;
     localStorage.setItem('cardsHTML', cardsHTML);
-}
+}*/
 
-function restoreCardsHTML() {
+/*function restoreCardsHTML() {
     let cardsHTML = localStorage.getItem('cardsHTML');
     if (cardsHTML) {
         let cardsContainer = document.querySelector('.cards');
         cardsContainer.innerHTML = cardsHTML;
     }
-}
+}*/
 
 function addCard() {
 
     let termInput = document.querySelector('.term input');
     let definitionInput = document.querySelector('.definition input');
 
-    const cardData = {
-        term: termInput.value,
-        definition: definitionInput.value,
-    };
+    /*    const cardData = {
+            Term: termInput.value.trim(),
+            Definition: definitionInput.value.trim(),
+        };*/
     currentCardNumber++;
     let newCardHTML = `
                     <div class="header d-flex justify-content-between p-3">
@@ -37,17 +37,18 @@ function addCard() {
                     <div class="card-body row">
                         <div class="term col">
                             <h3>Термин</h3>
-                            <input class="form-control w-100" asp-for="Cards[${currentCardNumber-1}].Term" placeholder="Введите термин">
+                            <input class="form-control w-100" name = "term" placeholder="Введите термин">
                         </div>
                         <div class="definition col">
                             <h3>Определение</h3>
-                            <input class="form-control w-100" asp-for="Cards[${currentCardNumber-1}].Definition" placeholder="Введите определение">
+                            <input class="form-control w-100" name="definition" placeholder="Введите определение">
                         </div>
                     </div>
             </div> `;
     let newCard = document.createElement('div');
     newCard.classList.add('card');
     newCard.classList.add('mt-3');
+    //TODO: Remove innerhtml and rewrite using WebApi
     newCard.innerHTML = newCardHTML;
 
     const binUrl = "/img/trash.svg";
@@ -62,38 +63,47 @@ function addCard() {
     let addNewCard = document.querySelector('.cards');
     let referenceNode = document.getElementById('create-cards');
     addNewCard.insertBefore(newCard, referenceNode);
-    saveCardsHTML();
-    saveCardDataToServer(cardData);
-    updateCounter();
-    
+/*    saveCardsHTML();
+    updateCounter();*/
+
 }
 
-/*function saveCardDataToServer(cardData) {
-    fetch('/Cards/Create/', {
+function saveCardDataToServer() {
+    let cards = [];
+    document.querySelectorAll('.cards > .card   ').forEach((card) => {
+        
+        let term = card.querySelector('input[name="term"]').value;
+        let definition = card.querySelector('input[name="definition"]').value;
+        if (term && definition) {
+            cards.push({Term: term, Definition: definition});
+        }
+    })
+
+    fetch('/Cards/Learning/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(cardData)
+        body: JSON.stringify(cards)
     })
-        .then(Response => Response.json())
-        .then((data => {
-            console.log("Данные успешно сохранены: ", data);
-        }))
-        .then((error) => {
-            console.error('Ошибка при отправке данных на сервере: ', error)
-        })
-}*/
+        .then(response => response.json())
+        .then(res => console.log(res))
+        .catch(error => {
+            console.error('Ошибка при отправке данных на сервере: ', error);
+        });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
-    let form = document.querySelector('.card');
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
+    let newCard = document.querySelector('.new-card');
+    newCard.addEventListener('click', function () {
         addCard();
     });
+    document.querySelector('form.cards').addEventListener('submit', function () {
+        saveCardDataToServer();
+    });
+
 });
 
-
-window.onload = updateCounter;
+/*window.onload = updateCounter;*/
 localStorage.clear();
 

@@ -6,7 +6,7 @@ public class CardsRepository
 
     public static void AddCard(Card card)
     {
-        if (_cards.Count != 0)
+        /*if (_cards.Count != 0)
         {
             var maxId = _cards.Max(x => x.CardId);
             card.CardId = maxId + 1;
@@ -15,7 +15,7 @@ public class CardsRepository
         else
         {
             card.CardId = 1;
-        }
+        }*/
         _cards.Add(card);
     }
 
