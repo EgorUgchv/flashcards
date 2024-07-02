@@ -10,7 +10,3 @@ public class Card
     public string Definition { get; set; } = string.Empty;
 }
 
-public class CardList
-{
-    public List<Card> Cards { get; set; }
-}

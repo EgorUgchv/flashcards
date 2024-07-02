@@ -9,6 +9,7 @@ public class CardsController : Controller
     public IActionResult Learning()
     {
         var cards = CardsRepository.GetCards();
+        /*return View(cards);*/
         return View(cards);
     }
 
@@ -35,23 +36,26 @@ public class CardsController : Controller
     }*/
 
     [HttpPost]
-    [Route("Cards/Learning/")]
-    public IActionResult Create([FromForm] CardList list)
+    [Route("Cards/Create/")]
+    public IActionResult Create([FromBody] Deck deck)
+
     {
-        if (list != null)
+        if (deck != null && deck.Cards != null)
         {
-            /*foreach (var card in cards)
+            foreach (var card in deck.Cards)
             {
                 if (!string.IsNullOrWhiteSpace(card.Term) && !string.IsNullOrWhiteSpace(card.Definition))
                 {
                     CardsRepository.AddCard(card);
                 }
-            }*/
+            }
 
             return Json(new { success = true, message = "Card saved successfully " });
         }
-
-        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-        return Json(new { success = false, message = "Validation error", errors = errors });
+        return Json(new {
+            success = false, message = "Invalid data provided"
+        });
     }
+
 }
+

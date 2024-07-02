@@ -6,20 +6,34 @@ public class CardsRepository
 
     public static void AddCard(Card card)
     {
-        /*if (_cards.Count != 0)
+        if (_cards.Count != 0)
         {
             var maxId = _cards.Max(x => x.CardId);
             card.CardId = maxId + 1;
-            
         }
         else
         {
             card.CardId = 1;
-        }*/
+        }
+
         _cards.Add(card);
     }
 
-    public static CardList GetCards() => new CardList{Cards = _cards};
+
+    public static Deck GetCards()
+    {
+        /*var cardList = new CardList
+        {
+            Cards = _cards
+        };*/
+        var cardList = new Deck
+        {
+            Cards = _cards
+            
+        };
+
+        return cardList;
+    }
 
     public static Card? GetCategoryById(int cardId)
     {

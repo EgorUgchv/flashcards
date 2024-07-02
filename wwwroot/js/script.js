@@ -5,19 +5,19 @@ var currentCardNumber = 1;
     document.getElementById('card-counter').textContent = 'Количество карт: ' + count;
 }*/
 
-/*function saveCardsHTML() {
+function saveCardsHTML() {
     let cardsContainer = document.querySelector('.cards');
     let cardsHTML = cardsContainer.innerHTML;
     localStorage.setItem('cardsHTML', cardsHTML);
-}*/
+}
 
-/*function restoreCardsHTML() {
+function restoreCardsHTML() {
     let cardsHTML = localStorage.getItem('cardsHTML');
     if (cardsHTML) {
         let cardsContainer = document.querySelector('.cards');
         cardsContainer.innerHTML = cardsHTML;
     }
-}*/
+}
 
 function addCard() {
 
@@ -63,34 +63,47 @@ function addCard() {
     let addNewCard = document.querySelector('.cards');
     let referenceNode = document.getElementById('create-cards');
     addNewCard.insertBefore(newCard, referenceNode);
-/*    saveCardsHTML();
-    updateCounter();*/
+    /*    saveCardsHTML();
+        updateCounter();*/
 
 }
 
 function saveCardDataToServer() {
     let cards = [];
     document.querySelectorAll('.cards > .card   ').forEach((card) => {
-        
-        let term = card.querySelector('input[name="term"]').value;
-        let definition = card.querySelector('input[name="definition"]').value;
-        if (term && definition) {
-            cards.push({Term: term, Definition: definition});
+
+        let termInput = card.querySelector('input[name="term"]');
+        let definitionInput = card.querySelector('input[name="definition"]');
+
+        if (termInput && definitionInput) {
+            let term = termInput.value.trim();
+            let definition = definitionInput.value.trim();
+            cards.push({
+                Term: term,
+                Definition: definition
+            });
+        }
+        else {
+            console.error("Input elements not found in card:", card);
         }
     })
 
-    fetch('/Cards/Learning/', {
+    fetch('/Cards/Create/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(cards)
+        body: JSON.stringify({Cards: cards})
     })
         .then(response => response.json())
-        .then(res => console.log(res))
-        .catch(error => {
-            console.error('Ошибка при отправке данных на сервере: ', error);
-        });
+        .then((data => {
+            if (data.success) {
+                console.log("Data successfully saved: ", data);
+                window.location.href = "/Cards/Learning";
+            } else {
+                console.error("Error saving card: ", data.message);
+            }
+        }))
 }
 
 document.addEventListener('DOMContentLoaded', function () {
