@@ -31,7 +31,7 @@
             <input class="form-control w-100" placeholder="Введите название">
         </div>
 
-        <form asp-controller="Cards" asp-action="Create" method="post" class="cards">
+        <form asp-controller="Cards" asp-action="Create" method="post" class="cards" id="deckForm">
             <div class="card mt-6">
                 <div class="header d-flex justify-content-between p-3">
                     <h4 class="card-counter">1</h4>
@@ -48,9 +48,10 @@
                     </div>
                 </div>
             </div>
-
-            <input type="submit" value="Создать" id="create-cards" class="btn btn-primary mt-2"/>
+            <input type="submit" value="Создать" id="create-cards" class="btn btn-primary mt-2" />
+            @*<button type="submit" value="Создать" id="create-cards" class="btn btn-primary mt-2" onclick="window.location.href='@Url.Action("Learning")'">Создать</button>*@
         </form>
+
         <button class="new-card w-100 d-flex justify-content-center align-items-center mt-4 mt-s rounded-2" style="height: 5rem"  type="button">
             <h3>+ Добавить карточку</h3>
         </button>
@@ -59,8 +60,7 @@
 
 </main>
     <script >
-/*        window.onload = function (){restoreCardsHTML();};
-        window.onbeforeunload = function (){ saveCardsHTML();};*/
+
     </script>
 </body>
 

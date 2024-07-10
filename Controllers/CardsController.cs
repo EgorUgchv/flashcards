@@ -9,7 +9,6 @@ public class CardsController : Controller
     public IActionResult Learning()
     {
         var cards = CardsRepository.GetCards();
-        /*return View(cards);*/
         return View(cards);
     }
 
@@ -17,30 +16,13 @@ public class CardsController : Controller
     {
         return View();
     }
-
-    /*
-    [HttpPost]
-    public IActionResult Create(CardList model)
-    {
-        if (ModelState.IsValid)
-        {
-            foreach (var card in model.Cards)
-            {
-                CardsRepository.AddCard(card);
-            }
-
-            return RedirectToAction(nameof(Learning));
-        }
-
-        return View(model);
-    }*/
-
+    
     [HttpPost]
     [Route("Cards/Create/")]
     public IActionResult Create([FromBody] Deck deck)
 
     {
-        if (deck != null && deck.Cards != null)
+        if (ModelState.IsValid)
         {
             foreach (var card in deck.Cards)
             {
@@ -49,9 +31,10 @@ public class CardsController : Controller
                     CardsRepository.AddCard(card);
                 }
             }
-
             return Json(new { success = true, message = "Card saved successfully " });
+            /*return RedirectToAction(nameof(Views.Cards.Learning));*/
         }
+        /*return RedirectToAction(nameof(Learning));*/
         return Json(new {
             success = false, message = "Invalid data provided"
         });

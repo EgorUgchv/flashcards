@@ -1,9 +1,9 @@
 var currentCardNumber = 1;
 
-/*function updateCounter() {
+function updateCounter() {
     var count = document.getElementsByClassName('card').length;
     document.getElementById('card-counter').textContent = 'Количество карт: ' + count;
-}*/
+}
 
 function saveCardsHTML() {
     let cardsContainer = document.querySelector('.cards');
@@ -20,14 +20,6 @@ function restoreCardsHTML() {
 }
 
 function addCard() {
-
-    let termInput = document.querySelector('.term input');
-    let definitionInput = document.querySelector('.definition input');
-
-    /*    const cardData = {
-            Term: termInput.value.trim(),
-            Definition: definitionInput.value.trim(),
-        };*/
     currentCardNumber++;
     let newCardHTML = `
                     <div class="header d-flex justify-content-between p-3">
@@ -63,8 +55,8 @@ function addCard() {
     let addNewCard = document.querySelector('.cards');
     let referenceNode = document.getElementById('create-cards');
     addNewCard.insertBefore(newCard, referenceNode);
-    /*    saveCardsHTML();
-        updateCounter();*/
+    saveCardsHTML();
+    updateCounter();
 
 }
 
@@ -82,8 +74,7 @@ function saveCardDataToServer() {
                 Term: term,
                 Definition: definition
             });
-        }
-        else {
+        } else {
             console.error("Input elements not found in card:", card);
         }
     })
@@ -100,6 +91,7 @@ function saveCardDataToServer() {
             if (data.success) {
                 console.log("Data successfully saved: ", data);
                 window.location.href = "/Cards/Learning";
+                return false;
             } else {
                 console.error("Error saving card: ", data.message);
             }
@@ -111,12 +103,15 @@ document.addEventListener('DOMContentLoaded', function () {
     newCard.addEventListener('click', function () {
         addCard();
     });
-    document.querySelector('form.cards').addEventListener('submit', function () {
+    document.getElementById('deckForm').addEventListener('submit', function (event) {
+        event.preventDefault();
         saveCardDataToServer();
     });
 
+
 });
 
-/*window.onload = updateCounter;*/
+window.onload = function (){restoreCardsHTML();};
+window.onbeforeunload = function (){ saveCardsHTML();};
 localStorage.clear();
 
