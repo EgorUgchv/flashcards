@@ -24,7 +24,7 @@ function addCard() {
     let newCardHTML = `
                     <div class="header d-flex justify-content-between p-3">
                         <h4 class="card-counter">${currentCardNumber}</h4>
-                        <!--<img src="~/img/trash.svg" class="remove-card  img-fluid" height="40px" width="35px" alt="удалить карточку">-->
+                        <button class="image-button" ></button>
                     </div>
                     <div class="card-body row">
                         <div class="term col">
@@ -42,7 +42,7 @@ function addCard() {
     newCard.classList.add('mt-3');
     //TODO: Remove innerhtml and rewrite using WebApi
     newCard.innerHTML = newCardHTML;
-
+/*
     const binUrl = "/img/trash.svg";
     var img = new Image();
     img.classList.add("bin");
@@ -50,7 +50,7 @@ function addCard() {
     img.src = binUrl;
 
     let addImg = newCard.querySelector('.header');
-    addImg.appendChild(img);
+    addImg.appendChild(img);*/
 
     let addNewCard = document.querySelector('.cards');
     let referenceNode = document.getElementById('create-cards');

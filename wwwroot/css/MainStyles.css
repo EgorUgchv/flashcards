@@ -27,10 +27,15 @@ body {
     margin-top: 10rem;
 }
 
-.bin{
+.image-button{
     height: 40px;
     width: 35px;
+    border: none;
+    background-image: url('../img/trash.svg');
+    background-size: cover;
+    background-color: transparent;
 }
 
+.
 
 

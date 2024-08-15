@@ -22,10 +22,6 @@ public class CardsRepository
 
     public static Deck GetCards()
     {
-        /*var cardList = new CardList
-        {
-            Cards = _cards
-        };*/
         var cardList = new Deck
         {
             Cards = _cards
