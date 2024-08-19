@@ -36,7 +36,11 @@
                 
                 <div class="header d-flex justify-content-between p-3">
                     <h4 class="card-counter">1</h4>
-                    <button class="image-button"></button>
+                    @{
+                        var baseUrl = Url.Action("DeleteCard", "Cards", new { cardId = 0 });
+                    }
+                    <a class="button-bin btn" asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="0" ></a>
+                    
                 </div>
 
                 <div class="card-body row">

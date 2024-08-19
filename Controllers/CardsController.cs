@@ -31,14 +31,19 @@ public class CardsController : Controller
                     CardsRepository.AddCard(card);
                 }
             }
+
             return Json(new { success = true, message = "Card saved successfully " });
-            /*return RedirectToAction(nameof(Views.Cards.Learning));*/
         }
-        /*return RedirectToAction(nameof(Learning));*/
+       
         return Json(new {
             success = false, message = "Invalid data provided"
         });
     }
 
+    public  IActionResult DeleteCard(int cardId)
+    {
+        CardsRepository.DeleteCard(cardId);
+        return RedirectToAction(nameof(Create));
+    }
 }
 

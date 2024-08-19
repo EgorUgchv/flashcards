@@ -21,10 +21,11 @@ function restoreCardsHTML() {
 
 function addCard() {
     currentCardNumber++;
+    let deleteCardUrl = '@baseUrl'.replace('0',currentCardNumber.toString());
     let newCardHTML = `
                     <div class="header d-flex justify-content-between p-3">
                         <h4 class="card-counter">${currentCardNumber}</h4>
-                        <button class="image-button" ></button>
+                        <a class="button-bin btn" href="${deleteCardUrl}"></a>
                     </div>
                     <div class="card-body row">
                         <div class="term col">
@@ -38,6 +39,8 @@ function addCard() {
                     </div>
             </div> `;
     let newCard = document.createElement('div');
+    
+    
     newCard.classList.add('card');
     newCard.classList.add('mt-3');
     //TODO: Remove innerhtml and rewrite using WebApi
@@ -98,20 +101,30 @@ function saveCardDataToServer() {
         }))
 }
 
+function removeCard(){
+    let removeCard = this.parentElement.parentElement;
+    removeCard.remove();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     let newCard = document.querySelector('.new-card');
     newCard.addEventListener('click', function () {
         addCard();
     });
+    
     document.getElementById('deckForm').addEventListener('submit', function (event) {
         event.preventDefault();
         saveCardDataToServer();
     });
-
+    
+    let remove = document.querySelectorAll('.button-bin');
+    remove.forEach(card => {
+        card.addEventListener('click', removeCard);
+    })
 
 });
 
 window.onload = function (){restoreCardsHTML();};
 window.onbeforeunload = function (){ saveCardsHTML();};
-localStorage.clear();
 
+localStorage.clear();
