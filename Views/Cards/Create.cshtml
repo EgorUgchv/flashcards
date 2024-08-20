@@ -1,3 +1,5 @@
+@using System.Text.Json.Serialization
+@using Newtonsoft.Json
 @model Deck
 
 <!DOCTYPE html>
@@ -12,7 +14,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" asp-append-version="true">
     <link rel="stylesheet" href="~/css/font.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/MainStyles.css" asp-append-version="true"/>
-    
+
 </head>
 
 <body>
@@ -33,14 +35,12 @@
 
         <form asp-controller="Cards" asp-action="Create" method="post" class="cards" id="deckForm">
             <div class="card mt-6">
-                
+
                 <div class="header d-flex justify-content-between p-3">
                     <h4 class="card-counter">1</h4>
-                    @{
-                        var baseUrl = Url.Action("DeleteCard", "Cards", new { cardId = 0 });
-                    }
-                    <a class="button-bin btn" asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="0" ></a>
-                    
+                    <div id="baseUrl" data-base-url = "@Url.Action("DeleteCard", "Cards", new { cardId = 0 })" ></div>
+                    <a class="button-bin btn" id="firstCard" asp-action="DeleteCard" asp-controller="Cards" asp-route-cardId="0"></a>
+
                 </div>
 
                 <div class="card-body row">
@@ -54,19 +54,19 @@
                     </div>
                 </div>
             </div>
-            
+
             @*<input type="submit" value="Создать" id="create-cards" class="btn btn-primary mt-2" />*@
             <button type="submit" value="Создать" id="create-cards" class="btn btn-primary mt-2">Создать</button>
         </form>
 
-        <button class="new-card w-100 d-flex justify-content-center align-items-center mt-4 mt-s rounded-2" style="height: 5rem"  type="button">
+        <button class="new-card w-100 d-flex justify-content-center align-items-center mt-4 mt-s rounded-2" style="height: 5rem" type="button">
             <h3>+ Добавить карточку</h3>
         </button>
-        
+
     </div>
 
 </main>
-    <script >
+<script >
 
     </script>
 </body>

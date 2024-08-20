@@ -21,7 +21,9 @@ function restoreCardsHTML() {
 
 function addCard() {
     currentCardNumber++;
-    let deleteCardUrl = '@baseUrl'.replace('0',currentCardNumber.toString());
+
+    let baseUrl = document.getElementById("firstCard").getAttribute("href");
+    let deleteCardUrl = baseUrl.replace('0',(currentCardNumber-1).toString());
     let newCardHTML = `
                     <div class="header d-flex justify-content-between p-3">
                         <h4 class="card-counter">${currentCardNumber}</h4>
@@ -39,8 +41,6 @@ function addCard() {
                     </div>
             </div> `;
     let newCard = document.createElement('div');
-    
-    
     newCard.classList.add('card');
     newCard.classList.add('mt-3');
     //TODO: Remove innerhtml and rewrite using WebApi
