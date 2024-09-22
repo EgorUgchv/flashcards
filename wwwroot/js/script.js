@@ -27,7 +27,7 @@ function addCard() {
     let newCardHTML = `
                     <div class="header d-flex justify-content-between p-3">
                         <h4 class="card-counter">${currentCardNumber}</h4>
-                        <a class="button-bin btn" href="${deleteCardUrl}"></a>
+                        <a class="button-bin btn"  id = "bin${currentCardNumber}"></a>
                     </div>
                     <div class="card-body row">
                         <div class="term col">
@@ -106,6 +106,7 @@ function removeCard(){
     removeCard.remove();
 }
 
+
 document.addEventListener('DOMContentLoaded', function () {
     let newCard = document.querySelector('.new-card');
     newCard.addEventListener('click', function () {
@@ -116,15 +117,26 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         saveCardDataToServer();
     });
-    
-    let remove = document.querySelectorAll('.button-bin');
+    document.querySelector('.cards').onclick = function(e){
+        if(!e.target.classList.contains('button-bin')) return;
+        let card = e.target.closest('.card');
+        card.remove();
+    }
+});
+/*    let remove = document.querySelectorAll('.button-bin');
     remove.forEach(card => {
         card.addEventListener('click', removeCard);
-    })
+    })  */
+/*
+    let remove = document.getElementById(`bin${currentCardNumber}`);
+*/
 
-});
 
-window.onload = function (){restoreCardsHTML();};
+
+
+
+
+/*window.onload = function (){restoreCardsHTML();};*/
 window.onbeforeunload = function (){ saveCardsHTML();};
 
-localStorage.clear();
+/*localStorage.clear();*/
