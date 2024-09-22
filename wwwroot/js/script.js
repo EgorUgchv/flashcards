@@ -1,9 +1,5 @@
 var currentCardNumber = 1;
 
-function updateCounter() {
-    var count = document.getElementsByClassName('card').length;
-    document.getElementById('card-counter').textContent = 'Количество карт: ' + count;
-}
 
 function saveCardsHTML() {
     let cardsContainer = document.querySelector('.cards');
@@ -21,9 +17,7 @@ function restoreCardsHTML() {
 
 function addCard() {
     currentCardNumber++;
-
-    let baseUrl = document.getElementById("firstCard").getAttribute("href");
-    let deleteCardUrl = baseUrl.replace('0',(currentCardNumber-1).toString());
+    
     let newCardHTML = `
                     <div class="header d-flex justify-content-between p-3">
                         <h4 class="card-counter">${currentCardNumber}</h4>
@@ -43,23 +37,12 @@ function addCard() {
     let newCard = document.createElement('div');
     newCard.classList.add('card');
     newCard.classList.add('mt-3');
-    //TODO: Remove innerhtml and rewrite using WebApi
     newCard.innerHTML = newCardHTML;
-/*
-    const binUrl = "/img/trash.svg";
-    var img = new Image();
-    img.classList.add("bin");
-    img.classList.add("img-fluid");
-    img.src = binUrl;
-
-    let addImg = newCard.querySelector('.header');
-    addImg.appendChild(img);*/
 
     let addNewCard = document.querySelector('.cards');
     let referenceNode = document.getElementById('create-cards');
     addNewCard.insertBefore(newCard, referenceNode);
     saveCardsHTML();
-    updateCounter();
 
 }
 
@@ -101,11 +84,27 @@ function saveCardDataToServer() {
         }))
 }
 
-function removeCard(){
-    let removeCard = this.parentElement.parentElement;
-    removeCard.remove();
+function removeCard(event){
+    let card = event.target.closest('.card');
+    card.remove();
+    
+    let removeCardIndex = card.querySelector('.card-counter').textContent;
+    updateCardNumbers(removeCardIndex);
+    saveCardsHTML();
 }
 
+function updateCardNumbers(startIndex){
+    let cards = Array.from(document.querySelectorAll('.cards > .card'));
+    currentCardNumber = startIndex-1;
+    cards.slice(currentCardNumber).forEach((card, index) => {
+       let cardCounter = card.querySelector('.card-counter'); 
+       if(cardCounter){
+           cardCounter.textContent =  parseInt(startIndex,10)+ index;
+            currentCardNumber =parseInt(startIndex,10)+ index;
+            
+       }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     let newCard = document.querySelector('.new-card');
@@ -119,8 +118,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.querySelector('.cards').onclick = function(e){
         if(!e.target.classList.contains('button-bin')) return;
-        let card = e.target.closest('.card');
-        card.remove();
+        /*let card = e.target.closest('.card');
+        card.remove();*/
+        removeCard(e);
+        
     }
 });
 /*    let remove = document.querySelectorAll('.button-bin');
