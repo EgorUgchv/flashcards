@@ -1,12 +1,15 @@
-var currentCardNumber = 1;
+
+let currentCardNumber = 1;
 
 function saveCardsHTML() {
+  "use strict";
   let cardsContainer = document.querySelector('.cards');
   let cardsHTML = cardsContainer.innerHTML;
   localStorage.setItem('cardsHTML', cardsHTML);
 }
 
 function restoreCardsHTML() {
+  "use strict";
   let cardsHTML = localStorage.getItem('cardsHTML');
   if (cardsHTML) {
     let cardsContainer = document.querySelector('.cards');
@@ -15,6 +18,7 @@ function restoreCardsHTML() {
 }
 
 function addCard() {
+  "use strict";
   currentCardNumber++;
 
   let newCardHTML = `
@@ -45,6 +49,7 @@ function addCard() {
 }
 
 function saveCardDataToServer() {
+  "use strict";
   let cards = [];
   document.querySelectorAll('.cards > .card   ').forEach((card) => {
     let termInput = card.querySelector('input[name="term"]');
@@ -82,18 +87,22 @@ function saveCardDataToServer() {
 }
 
 function removeCard(event) {
+  "use strict";
   let card = event.target.closest('.card');
   let removeCardIndex = card.querySelector('.card-counter').textContent;
-  let cards = Array.from(document.querySelectorAll('.cards > .card'));
+  let cards = document.querySelectorAll('.cards > .card');
+  cards = Array.from(cards);
   if (removeCardIndex !== '1' && cards.length !== 1) {
     card.remove();
-    cards = Array.from(document.querySelectorAll('.cards > .card'));
-    updateCardNumbers(removeCardIndex, cards);
+    let updateCards = document.querySelectorAll('.cards > .card');
+    let newCards = Array.from(updateCards);
+    updateCardNumbers(removeCardIndex, newCards);
     saveCardsHTML();
   }
 }
 
 function updateCardNumbers(startIndex, cards) {
+  "use strict";
   currentCardNumber = startIndex - 1;
   cards.slice(currentCardNumber).forEach((card, index) => {
     let cardCounter = card.querySelector('.card-counter');
@@ -105,6 +114,7 @@ function updateCardNumbers(startIndex, cards) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  "use strict";
   let newCard = document.querySelector('.new-card');
   newCard.addEventListener('click', function () {
     addCard();
@@ -115,22 +125,16 @@ document.addEventListener('DOMContentLoaded', function () {
     saveCardDataToServer();
   });
   document.querySelector('.cards').onclick = function (e) {
-    if (!e.target.classList.contains('button-bin')) return;
+    if (!e.target.classList.contains('button-bin')) {return;}
     /*let card = e.target.closest('.card');
         card.remove();*/
     removeCard(e);
   };
 });
-/*    let remove = document.querySelectorAll('.button-bin');
-    remove.forEach(card => {
-        card.addEventListener('click', removeCard);
-    })  */
-/*
-    let remove = document.getElementById(`bin${currentCardNumber}`);
-*/
 
-window.onload = function (){restoreCardsHTML();};
+window.onload = function (){"use strict";restoreCardsHTML();};
 window.onbeforeunload = function () {
+  "use strict";
   saveCardsHTML();
 };
 
