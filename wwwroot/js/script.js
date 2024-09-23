@@ -86,15 +86,17 @@ function saveCardDataToServer() {
 
 function removeCard(event){
     let card = event.target.closest('.card');
-    card.remove();
-    
     let removeCardIndex = card.querySelector('.card-counter').textContent;
-    updateCardNumbers(removeCardIndex);
-    saveCardsHTML();
+    let cards = Array.from(document.querySelectorAll('.cards > .card'));
+    if (removeCardIndex !== '1' && cards.length !==1){
+        card.remove();
+        cards = Array.from(document.querySelectorAll('.cards > .card'));
+        updateCardNumbers(removeCardIndex,cards);
+        saveCardsHTML();
+    }
 }
 
-function updateCardNumbers(startIndex){
-    let cards = Array.from(document.querySelectorAll('.cards > .card'));
+function updateCardNumbers(startIndex,cards){
     currentCardNumber = startIndex-1;
     cards.slice(currentCardNumber).forEach((card, index) => {
        let cardCounter = card.querySelector('.card-counter'); 
