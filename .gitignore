@@ -296,7 +296,7 @@ mono_crash.*
 Generated\ Files/
 
 # MSTest test Results
-
+Linters
 # NUnit
 nunit-*.xml
 
@@ -499,6 +499,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+package.json
+prettier.config.js
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
