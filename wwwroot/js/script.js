@@ -3,8 +3,19 @@ let currentCardNumber = 1;
 function saveCardsHTML() {
   "use strict";
   let cardsContainer = document.querySelector('.cards');
-  let cardsHTML = cardsContainer.innerHTML;
-  localStorage.setItem('cardsHTML', cardsHTML);
+  if(cardsContainer){
+    let cards = document.querySelectorAll('.cards .card');
+    if(cards){
+        cards.forEach((card,index)=>{
+      let termValue =  card.querySelector('input[name="term"]').value;  
+      let definitionValue =  card.querySelector('input[name="definition"]').value;
+      localStorage.setItem(`termValue${index}`,termValue);
+      localStorage.setItem(`definitionValue${index}`,definitionValue);
+    });
+    }
+    let cardsHTML = cardsContainer.innerHTML;
+    localStorage.setItem('cardsHTML', cardsHTML);
+  }
 }
 
 function restoreCardsHTML() {
@@ -13,6 +24,16 @@ function restoreCardsHTML() {
   if (cardsHTML) {
     let cardsContainer = document.querySelector('.cards');
     cardsContainer.innerHTML = cardsHTML;
+  }
+  let cards = document.querySelectorAll('.cards .card');
+  if(cards){
+    cards.forEach((card,index)=>{
+      let term = card.querySelector('input[name="term"]');
+      let definition = card.querySelector('input[name="definition"]');
+      term.value = localStorage.getItem(`termValue${index}`);
+      definition.value = localStorage.getItem(`definitionValue${index}`);
+      
+    });
   }
 }
 
