@@ -1,4 +1,3 @@
-
 let currentCardNumber = 1;
 
 function saveCardsHTML() {
@@ -29,11 +28,11 @@ function addCard() {
                     <div class="card-body row">
                         <div class="term col">
                             <h3>Термин</h3>
-                            <input class="form-control w-100" name = "term" placeholder="Введите термин">
+                            <input class="form-control w-100" name = "term" placeholder="Введите термин" required>
                         </div>
                         <div class="definition col">
                             <h3>Определение</h3>
-                            <input class="form-control w-100" name="definition" placeholder="Введите определение">
+                            <input class="form-control w-100" name="definition" placeholder="Введите определение" required>
                         </div>
                     </div>
             </div> `;
@@ -62,8 +61,6 @@ function saveCardDataToServer() {
         Term: term,
         Definition: definition,
       });
-    } else {
-      console.error('Input elements not found in card:', card);
     }
   });
 
@@ -77,12 +74,9 @@ function saveCardDataToServer() {
     .then((response) => response.json())
     .then((data) => {
       if (data.success) {
-        console.log('Data successfully saved: ', data);
         window.location.href = '/Cards/Learning';
         return false;
-      } else {
-        console.error('Error saving card: ', data.message);
-      }
+      } 
     });
 }
 
@@ -113,25 +107,25 @@ function updateCardNumbers(startIndex, cards) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+let deckForm =document.getElementById('deckForm');
+deckForm.addEventListener('submit', function (event) {
   "use strict";
-  let newCard = document.querySelector('.new-card');
-  newCard.addEventListener('click', function () {
+  event.preventDefault();
+  saveCardDataToServer();
+});
+ 
+let newCard = document.querySelector('.new-card');
+newCard.addEventListener('click', function () {
+    "use strict";
     addCard();
   });
-
-  document.getElementById('deckForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    saveCardDataToServer();
-  });
-  document.querySelector('.cards').onclick = function (e) {
+  
+document.querySelector('.cards').onclick = function (e) {
+  "use strict";
     if (!e.target.classList.contains('button-bin')) {return;}
-    /*let card = e.target.closest('.card');
-        card.remove();*/
     removeCard(e);
   };
-});
-
+    
 window.onload = function (){"use strict";restoreCardsHTML();};
 window.onbeforeunload = function () {
   "use strict";
