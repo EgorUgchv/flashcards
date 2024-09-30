@@ -14,13 +14,19 @@ function saveCardsHTML() {
 function handleOfCardValues(cards, action) {
   'use strict';
   cards.forEach((card, index) => {
-    let termValue = getTermValue(card);
-    let definitionValue = getDefinitionValue(card);
-    if ('save' === action) {
-      setItemsInLocalStorage(definitionValue, termValue, index);
-    } else if ('load' === action) {
-      getItemsInLocalStorage(definitionValue, termValue, index);
-    }
+    let term = getTerm(card);
+    let definition = getDefinition(card);
+   switch (action) {
+     case 'save':
+       setItemsInLocalStorage(definition,term,index);
+       break;
+   
+    case 'load':
+      getItemsFromLocalStorage(definition,term,index);
+      break;
+     default:
+       throw new Error(`Unknown action: ${action}`);
+  }
   });
 }
 function getAllCards() {
@@ -31,23 +37,23 @@ function getCardsContainer() {
   'use strict';
   return document.querySelector('.cards');
 }
-function getTermValue(card) {
+function getTerm(card) {
   'use strict';
-  return card.querySelector('input[name="term"]').value;
+  return card.querySelector('input[name="term"]');
 }
-function getDefinitionValue(card) {
+function getDefinition(card) {
   'use strict';
-  return card.querySelector('input[name="definition"]').value;
+  return card.querySelector('input[name="definition"]');
 }
-function setItemsInLocalStorage(definitionValue, termValue, index) {
+function setItemsInLocalStorage(definition, term, index) {
   'use strict';
-  localStorage.setItem(`termValue${index}`, termValue);
-  localStorage.setItem(`definitionValue${index}`, definitionValue);
+  localStorage.setItem(`termValue${index}`, term.value);
+  localStorage.setItem(`definitionValue${index}`, definition.value);
 }
-function getItemsInLocalStorage(definitionValue, termValue, index) {
+function getItemsFromLocalStorage(definition, term, index) {
   'use strict';
-  localStorage.getItem(`termValue${index}`);
-  localStorage.getItem(`definitionValue${index}`);
+  term.value = localStorage.getItem(`termValue${index}`);
+  definition.value = localStorage.getItem(`definitionValue${index}`);
 }
 function restoreCardsHTML() {
   'use strict';
@@ -58,12 +64,7 @@ function restoreCardsHTML() {
   }
   let cards = getAllCards();
   if (cards) {
-    cards.forEach((card, index) => {
-      let term = card.querySelector('input[name="term"]');
-      let definition = card.querySelector('input[name="definition"]');
-      term.value = localStorage.getItem(`termValue${index}`);
-      definition.value = localStorage.getItem(`definitionValue${index}`);
-    });
+    handleOfCardValues(cards,'load');
   }
 }
 function addCard() {
