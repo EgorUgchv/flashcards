@@ -1,44 +1,73 @@
 let currentCardNumber = 1;
-
 function saveCardsHTML() {
-  "use strict";
-  let cardsContainer = document.querySelector('.cards');
-  if(cardsContainer){
-    let cards = document.querySelectorAll('.cards .card');
-    if(cards){
-        cards.forEach((card,index)=>{
-      let termValue =  card.querySelector('input[name="term"]').value;  
-      let definitionValue =  card.querySelector('input[name="definition"]').value;
-      localStorage.setItem(`termValue${index}`,termValue);
-      localStorage.setItem(`definitionValue${index}`,definitionValue);
-    });
+  'use strict';
+  let cardsContainer = getCardsContainer();
+  if (cardsContainer) {
+    let cards = getAllCards();
+    if (cards) {
+      handleOfCardValues(cards, 'save');
     }
     let cardsHTML = cardsContainer.innerHTML;
     localStorage.setItem('cardsHTML', cardsHTML);
   }
 }
-
+function handleOfCardValues(cards, action) {
+  'use strict';
+  cards.forEach((card, index) => {
+    let termValue = getTermValue(card);
+    let definitionValue = getDefinitionValue(card);
+    if ('save' === action) {
+      setItemsInLocalStorage(definitionValue, termValue, index);
+    } else if ('load' === action) {
+      getItemsInLocalStorage(definitionValue, termValue, index);
+    }
+  });
+}
+function getAllCards() {
+  'use strict';
+  return document.querySelectorAll('.cards .card');
+}
+function getCardsContainer() {
+  'use strict';
+  return document.querySelector('.cards');
+}
+function getTermValue(card) {
+  'use strict';
+  return card.querySelector('input[name="term"]').value;
+}
+function getDefinitionValue(card) {
+  'use strict';
+  return card.querySelector('input[name="definition"]').value;
+}
+function setItemsInLocalStorage(definitionValue, termValue, index) {
+  'use strict';
+  localStorage.setItem(`termValue${index}`, termValue);
+  localStorage.setItem(`definitionValue${index}`, definitionValue);
+}
+function getItemsInLocalStorage(definitionValue, termValue, index) {
+  'use strict';
+  localStorage.getItem(`termValue${index}`);
+  localStorage.getItem(`definitionValue${index}`);
+}
 function restoreCardsHTML() {
-  "use strict";
+  'use strict';
   let cardsHTML = localStorage.getItem('cardsHTML');
   if (cardsHTML) {
-    let cardsContainer = document.querySelector('.cards');
+    let cardsContainer = getCardsContainer();
     cardsContainer.innerHTML = cardsHTML;
   }
-  let cards = document.querySelectorAll('.cards .card');
-  if(cards){
-    cards.forEach((card,index)=>{
+  let cards = getAllCards();
+  if (cards) {
+    cards.forEach((card, index) => {
       let term = card.querySelector('input[name="term"]');
       let definition = card.querySelector('input[name="definition"]');
       term.value = localStorage.getItem(`termValue${index}`);
       definition.value = localStorage.getItem(`definitionValue${index}`);
-      
     });
   }
 }
-
 function addCard() {
-  "use strict";
+  'use strict';
   currentCardNumber++;
 
   let newCardHTML = `
@@ -67,9 +96,8 @@ function addCard() {
   addNewCard.insertBefore(newCard, referenceNode);
   saveCardsHTML();
 }
-
 function saveCardDataToServer() {
-  "use strict";
+  'use strict';
   let cards = [];
   document.querySelectorAll('.cards > .card   ').forEach((card) => {
     let termInput = card.querySelector('input[name="term"]');
@@ -97,12 +125,12 @@ function saveCardDataToServer() {
       if (data.success) {
         window.location.href = '/Cards/Learning';
         return false;
-      } 
+      }
     });
 }
 
 function removeCard(event) {
-  "use strict";
+  'use strict';
   let card = event.target.closest('.card');
   let removeCardIndex = card.querySelector('.card-counter').textContent;
   let cards = document.querySelectorAll('.cards > .card');
@@ -117,7 +145,7 @@ function removeCard(event) {
 }
 
 function updateCardNumbers(startIndex, cards) {
-  "use strict";
+  'use strict';
   currentCardNumber = startIndex - 1;
   cards.slice(currentCardNumber).forEach((card, index) => {
     let cardCounter = card.querySelector('.card-counter');
@@ -128,28 +156,33 @@ function updateCardNumbers(startIndex, cards) {
   });
 }
 
-let deckForm =document.getElementById('deckForm');
+let deckForm = document.getElementById('deckForm');
 deckForm.addEventListener('submit', function (event) {
-  "use strict";
+  'use strict';
   event.preventDefault();
   saveCardDataToServer();
 });
- 
+
 let newCard = document.querySelector('.new-card');
 newCard.addEventListener('click', function () {
-    "use strict";
-    addCard();
-  });
-  
+  'use strict';
+  addCard();
+});
+
 document.querySelector('.cards').onclick = function (e) {
-  "use strict";
-    if (!e.target.classList.contains('button-bin')) {return;}
-    removeCard(e);
-  };
-    
-window.onload = function (){"use strict";restoreCardsHTML();};
+  'use strict';
+  if (!e.target.classList.contains('button-bin')) {
+    return;
+  }
+  removeCard(e);
+};
+
+window.onload = function () {
+  'use strict';
+  restoreCardsHTML();
+};
 window.onbeforeunload = function () {
-  "use strict";
+  'use strict';
   saveCardsHTML();
 };
 
