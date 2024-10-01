@@ -104,8 +104,8 @@ function saveCardDataToServer() {
   'use strict';
   let cards = [];
   document.querySelectorAll('.cards > .card   ').forEach((card) => {
-    let termInput = card.querySelector('input[name="term"]');
-    let definitionInput = card.querySelector('input[name="definition"]');
+    let termInput = getTerm(card); 
+    let definitionInput = getDefinition(card);
 
     if (termInput && definitionInput) {
       let term = termInput.value.trim();
@@ -132,15 +132,16 @@ function saveCardDataToServer() {
     });
 }
 
+
 function removeCard(event) {
   'use strict';
   let card = event.target.closest('.card');
   let removeCardIndex = card.querySelector('.card-counter').textContent;
-  let cards = document.querySelectorAll('.cards > .card');
+  let cards = getAllCards();
   cards = Array.from(cards);
-  if (removeCardIndex !== '1' && cards.length !== 1) {
+  if (cards.length !== 1) {
     card.remove();
-    let updateCards = document.querySelectorAll('.cards > .card');
+    let updateCards =getAllCards();
     let newCards = Array.from(updateCards);
     updateCardNumbers(removeCardIndex, newCards);
     saveCardsHTML();
