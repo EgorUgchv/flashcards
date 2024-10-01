@@ -16,17 +16,17 @@ function handleOfCardValues(cards, action) {
   cards.forEach((card, index) => {
     let term = getTerm(card);
     let definition = getDefinition(card);
-   switch (action) {
-     case 'save':
-       setItemsInLocalStorage(definition,term,index);
-       break;
-   
-    case 'load':
-      getItemsFromLocalStorage(definition,term,index);
-      break;
-     default:
-       throw new Error(`Unknown action: ${action}`);
-  }
+    switch (action) {
+      case 'save':
+        setItemsInLocalStorage(definition, term, index);
+        break;
+
+      case 'load':
+        getItemsFromLocalStorage(definition, term, index);
+        break;
+      default:
+        throw new Error(`Unknown action: ${action}`);
+    }
   });
 }
 function getAllCards() {
@@ -64,17 +64,29 @@ function restoreCardsHTML() {
   }
   let cards = getAllCards();
   if (cards) {
-    handleOfCardValues(cards,'load');
+    handleOfCardValues(cards, 'load');
   }
 }
 function addCard() {
   'use strict';
   currentCardNumber++;
 
-  let newCardHTML = `
+  let newCard = document.createElement('div');
+  newCard.classList.add('card');
+  newCard.classList.add('mt-3');
+  newCard.innerHTML = createCardHTML(currentCardNumber);
+
+  let addNewCard = document.querySelector('.cards');
+  let referenceNode = document.getElementById('create-cards');
+  addNewCard.insertBefore(newCard, referenceNode);
+  saveCardsHTML();
+}
+function createCardHTML(cardNumber) {
+  'use strict';
+  return `
                     <div class="header d-flex justify-content-between p-3">
-                        <h4 class="card-counter">${currentCardNumber}</h4>
-                        <a class="button-bin btn"  id = "bin${currentCardNumber}"></a>
+                        <h4 class="card-counter">${cardNumber}</h4>
+                        <a class="button-bin btn"  id = "bin${cardNumber}"></a>
                     </div>
                     <div class="card-body row">
                         <div class="term col">
@@ -86,16 +98,7 @@ function addCard() {
                             <input class="form-control w-100" name="definition" placeholder="Введите определение" required>
                         </div>
                     </div>
-            </div> `;
-  let newCard = document.createElement('div');
-  newCard.classList.add('card');
-  newCard.classList.add('mt-3');
-  newCard.innerHTML = newCardHTML;
-
-  let addNewCard = document.querySelector('.cards');
-  let referenceNode = document.getElementById('create-cards');
-  addNewCard.insertBefore(newCard, referenceNode);
-  saveCardsHTML();
+            `;
 }
 function saveCardDataToServer() {
   'use strict';
@@ -113,7 +116,6 @@ function saveCardDataToServer() {
       });
     }
   });
-
   fetch('/Cards/Create/', {
     method: 'POST',
     headers: {
@@ -187,4 +189,4 @@ window.onbeforeunload = function () {
   saveCardsHTML();
 };
 
-/*localStorage.clear();*/
+localStorage.clear();
