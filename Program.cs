@@ -21,7 +21,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Cards}/{action=Create}/{id?}");
+    "default",
+    "{controller=Cards}/{action=Create}/{id?}");
 
 app.Run();

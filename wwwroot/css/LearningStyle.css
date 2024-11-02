@@ -1,0 +1,21 @@
+.title {
+    background-color: #48abd5;
+    border-radius: 0.5rem;
+}
+
+.centered-text {
+    height: 17rem;
+    padding: 1rem; /* Дополнительный отступ для красоты */
+}
+
+.card {
+    background-color: white;
+}
+
+.card h3 {
+    color: black;
+}
+
+.viewDefinition{
+    background-color: #48abd5;
+}

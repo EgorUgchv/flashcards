@@ -24,7 +24,7 @@
 
         <div class="card mt-5 mb-5 p-2 pb-3">
             <h3>Название</h3>
-            <input class="form-control w-100" name = "title" placeholder="Введите название">
+            <input class="form-control w-100" name="title" placeholder="Введите название">
         </div>
 
         <form asp-controller="Cards" asp-action="Create" method="post" class="cards" id="deckForm">
@@ -32,14 +32,14 @@
 
                 <div class="header d-flex justify-content-between p-3">
                     <h4 class="card-counter">1</h4>
-                    <a class="button-bin btn" id="firstCard" ></a>
+                    <a class="button-bin btn" id="firstCard"></a>
 
                 </div>
 
                 <div class="card-body row">
                     <div class="term col">
                         <h3>Термин</h3>
-                        <input class="form-control w-100" name="term" placeholder="Введите термин"  runat="server" ClientIDMode="Static" required>
+                        <input class="form-control w-100" name="term" placeholder="Введите термин" runat="server" ClientIDMode="Static" required>
                     </div>
                     <div class="definition col">
                         <h3>Определение</h3>

@@ -2,7 +2,7 @@ namespace WordStudy.Models;
 
 public class CardsRepository
 {
-    private static List<Card> _cards { get; set; } = new List<Card>();
+    private static List<Card> _cards { get; } = new();
 
     public static void AddCard(Card card)
     {
@@ -25,7 +25,6 @@ public class CardsRepository
         var cardList = new Deck
         {
             Cards = _cards
-            
         };
 
         return cardList;
@@ -51,9 +50,6 @@ public class CardsRepository
     public static void DeleteCard(int cardId)
     {
         var card = _cards.FirstOrDefault(x => x.CardId == cardId);
-        if (card != null)
-        {
-            _cards.Remove(card);
-        }
+        if (card != null) _cards.Remove(card);
     }
 }

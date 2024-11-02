@@ -6,6 +6,5 @@ public class Learning : PageModel
 {
     public void OnGet()
     {
-        
     }
 }
